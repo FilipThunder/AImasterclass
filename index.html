@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI.NEXUS - Project Management & AI Automatizace</title>
+    <title>Filip Hromek - Project Management & AI Automatizace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Three.js for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         @keyframes fade-in-up {
             from {
@@ -23,15 +25,30 @@
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
+        
+        /* Canvas container for 3D background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind everything */
+            opacity: 0.4; /* Subtle effect */
+            pointer-events: none; /* Let clicks pass through */
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-900 overflow-x-hidden">
+
+    <!-- 3D Background Container -->
+    <div id="canvas-container"></div>
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 bg-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="window.scrollTo(0,0)">
-                AI.NEXUS
+                Filip Hromek
             </div>
             
             <!-- Desktop Menu -->
@@ -61,9 +78,9 @@
 
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <!-- Abstract Background Shapes -->
-        <div class="absolute top-20 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] -z-10"></div>
-        <div class="absolute bottom-0 left-0 w-72 h-72 bg-cyan-600/20 rounded-full blur-[100px] -z-10"></div>
+        <!-- Abstract Background Shapes (Reduced opacity since we have 3D now) -->
+        <div class="absolute top-20 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-cyan-600/10 rounded-full blur-[100px] -z-10"></div>
 
         <div class="container mx-auto px-6 text-center">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 text-cyan-400 text-sm font-medium mb-8 animate-fade-in-up opacity-0">
@@ -94,7 +111,7 @@
     </section>
 
     <!-- Services Section -->
-    <section id="sluzby" class="py-20 bg-slate-900/50">
+    <section id="sluzby" class="py-20 bg-slate-900/50 backdrop-blur-sm">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">Co pro vás mohu udělat?</h2>
@@ -103,7 +120,7 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Service 1 -->
-                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2 backdrop-blur-md">
                     <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="kanban" class="w-10 h-10 text-cyan-400"></i>
                     </div>
@@ -114,7 +131,7 @@
                 </div>
 
                 <!-- Service 2 -->
-                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2 backdrop-blur-md">
                     <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="brain" class="w-10 h-10 text-purple-400"></i>
                     </div>
@@ -125,7 +142,7 @@
                 </div>
 
                 <!-- Service 3 -->
-                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2 backdrop-blur-md">
                     <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="cpu" class="w-10 h-10 text-blue-400"></i>
                     </div>
@@ -139,8 +156,7 @@
     </section>
 
     <!-- About/Stats Section -->
-    <section id="o-mne" class="py-20 border-y border-slate-800 relative">
-        <div class="absolute inset-0 bg-slate-950 opacity-80 z-0"></div>
+    <section id="o-mne" class="py-20 border-y border-slate-800 relative backdrop-blur-sm bg-slate-900/30">
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2">
@@ -165,22 +181,22 @@
                 </div>
                 <div class="lg:w-1/2 grid grid-cols-2 gap-6">
                     <!-- Stat 1 -->
-                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                    <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
                         <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">50+</div>
                         <div class="text-sm text-slate-400">Úspěšných projektů</div>
                     </div>
                     <!-- Stat 2 -->
-                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                    <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
                         <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">30%</div>
                         <div class="text-sm text-slate-400">Průměrná úspora času</div>
                     </div>
                     <!-- Stat 3 -->
-                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                    <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
                         <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">100+</div>
                         <div class="text-sm text-slate-400">Automatizovaných procesů</div>
                     </div>
                     <!-- Stat 4 -->
-                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                    <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
                         <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">24/7</div>
                         <div class="text-sm text-slate-400">Běžící systémy</div>
                     </div>
@@ -192,7 +208,7 @@
     <!-- Contact Form Section -->
     <section id="kontakt" class="py-24 relative">
         <div class="container mx-auto px-6 max-w-4xl">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
                 <!-- Decorative glow -->
                 <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
 
@@ -242,36 +258,17 @@
                     </button>
                 </form>
 
-                <div class="mt-12 grid md:grid-cols-2 gap-6 border-t border-slate-800 pt-8">
-                    <div class="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
-                        <div class="p-3 bg-slate-800 rounded-full">
-                            <i data-lucide="mail" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-500">Email</p>
-                            <p class="font-medium">kontakt@vasedomena.cz</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
-                        <div class="p-3 bg-slate-800 rounded-full">
-                            <i data-lucide="phone" class="w-5 h-5"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-500">Telefon</p>
-                            <p class="font-medium">+420 123 456 789</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Removed contact info section here as requested -->
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm">
+    <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm backdrop-blur-md">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p id="copyright">© 2024 AI.NEXUS. Všechna práva vyhrazena.</p>
+            <p id="copyright">© 2024 Filip Hromek. Všechna práva vyhrazena.</p>
             <div class="flex gap-4">
-                <a href="#" class="hover:text-cyan-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="https://www.linkedin.com/in/filiphromek/" target="_blank" class="hover:text-cyan-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
             </div>
         </div>
     </footer>
@@ -282,7 +279,7 @@
         lucide.createIcons();
 
         // Update Copyright Year
-        document.getElementById('copyright').textContent = `© ${new Date().getFullYear()} AI.NEXUS. Všechna práva vyhrazena.`;
+        document.getElementById('copyright').textContent = `© ${new Date().getFullYear()} Filip Hromek. Všechna práva vyhrazena.`;
 
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
@@ -307,12 +304,6 @@
             if (isMenuOpen) {
                 mobileMenu.classList.remove('hidden');
                 mobileMenu.classList.add('flex');
-                // Change icon to X (handled by Lucide re-render or replacing SVG)
-                // For simplicity in static HTML, we can toggle visibility of two icons if we had them, 
-                // but re-running createIcons on changed content is tricky. 
-                // Simpler: Just toggle class/style or innerHTML if needed, 
-                // but standard Lucide replacement replaces the <i> tag with <svg>.
-                // We'll keep the menu icon for simplicity or rotate it.
                 mobileMenuBtn.classList.add('rotate-90'); 
             } else {
                 mobileMenu.classList.add('hidden');
@@ -402,6 +393,115 @@
                 }, 3000);
             }
         });
+
+        // --- 3D Background Logic with Three.js ---
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            
+            // Scene setup
+            const scene = new THREE.Scene();
+            // Optional: minimal fog for depth
+            // scene.fog = new THREE.FogExp2(0x020617, 0.02);
+
+            // Camera
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Geometry - Icosahedron is a cool "tech" polygon
+            const geometry = new THREE.IcosahedronGeometry(12, 1);
+            
+            // Material - Wireframe style
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x06b6d4, // Cyan-500 equivalent
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            // Secondary shape - inner core
+            const innerGeometry = new THREE.IcosahedronGeometry(6, 0);
+            const innerMaterial = new THREE.MeshBasicMaterial({
+                color: 0xa855f7, // Purple-500 equivalent
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
+            scene.add(innerSphere);
+
+            // Mouse interaction variables
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            });
+
+            // Scroll interaction variables
+            let scrollY = 0;
+            window.addEventListener('scroll', () => {
+                scrollY = window.scrollY;
+            });
+
+            // Animation Loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                targetX = mouseX * 0.001;
+                targetY = mouseY * 0.001;
+
+                // Rotate based on time (constant spin)
+                sphere.rotation.y += 0.002;
+                sphere.rotation.x += 0.001;
+                innerSphere.rotation.y -= 0.002;
+                innerSphere.rotation.x -= 0.001;
+
+                // Rotate/Move based on mouse with easing
+                sphere.rotation.y += 0.05 * (targetX - sphere.rotation.y);
+                sphere.rotation.x += 0.05 * (targetY - sphere.rotation.x);
+
+                // Move based on scroll
+                // As we scroll down, move the object slightly and rotate it faster
+                const scrollFactor = scrollY * 0.01;
+                sphere.position.y = -scrollY * 0.02; // Move up as we scroll down
+                innerSphere.position.y = -scrollY * 0.02;
+
+                sphere.rotation.z = scrollFactor * 0.1;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+        };
+
+        // Initialize 3D scene when DOM is ready
+        document.addEventListener('DOMContentLoaded', initThreeJS);
+
     </script>
 </body>
 </html>
