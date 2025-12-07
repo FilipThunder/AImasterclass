@@ -1,402 +1,407 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Brain, 
-  Cpu, 
-  Kanban, 
-  CheckCircle, 
-  ArrowRight, 
-  Mail, 
-  Phone, 
-  Linkedin, 
-  Menu, 
-  X,
-  Send,
-  Zap,
-  AlertCircle
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI.NEXUS - Project Management & AI Automatizace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-900 overflow-x-hidden">
 
-const App = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  // Handle scroll for navbar styling
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-900">
-      
-      {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            AI.NEXUS
-          </div>
-          
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8 items-center">
-            <button onClick={() => scrollToSection('sluzby')} className="hover:text-cyan-400 transition-colors">Služby</button>
-            <button onClick={() => scrollToSection('o-mne')} className="hover:text-cyan-400 transition-colors">O mně</button>
-            <button 
-              onClick={() => scrollToSection('kontakt')} 
-              className="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full font-medium hover:shadow-[0_0_20px_rgba(8,145,178,0.5)] transition-all transform hover:-translate-y-0.5"
-            >
-              Spolupracovat
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-100">
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 p-6 flex flex-col space-y-4 shadow-xl">
-            <button onClick={() => scrollToSection('sluzby')} className="text-lg py-2 border-b border-slate-800">Služby</button>
-            <button onClick={() => scrollToSection('o-mne')} className="text-lg py-2 border-b border-slate-800">O mně</button>
-            <button onClick={() => scrollToSection('kontakt')} className="text-lg py-2 text-cyan-400 font-bold">Spolupracovat</button>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-20 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-600/20 rounded-full blur-[100px] -z-10"></div>
-
-        <div className="container mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 text-cyan-400 text-sm font-medium mb-8 animate-fade-in-up">
-            <Zap size={16} />
-            <span>Budoucnost je v automatizaci</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up delay-100">
-            Řídím projekty.<br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Implementuji AI.
-            </span>
-          </h1>
-          
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-12 animate-fade-in-up delay-200">
-            Pomáhám firmám šetřit čas a peníze pomocí chytré automatizace a efektivního projektového řízení. Převeďte rutinu na AI a soustřeďte se na růst.
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up delay-300">
-            <button 
-              onClick={() => scrollToSection('kontakt')}
-              className="px-8 py-4 bg-white text-slate-950 rounded-full font-bold text-lg hover:bg-slate-200 transition-colors flex items-center justify-center gap-2"
-            >
-              Nezávazná konzultace <ArrowRight size={20} />
-            </button>
-            <button 
-              onClick={() => scrollToSection('sluzby')}
-              className="px-8 py-4 bg-slate-800/50 border border-slate-700 text-white rounded-full font-bold text-lg hover:bg-slate-800 transition-colors backdrop-blur-sm"
-            >
-              Moje služby
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="sluzby" className="py-20 bg-slate-900/50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Co pro vás mohu udělat?</h2>
-            <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <ServiceCard 
-              icon={<Kanban size={40} className="text-cyan-400" />}
-              title="Project Management"
-              description="Profesionální vedení projektů od A do Z. Nastavení procesů, agilní metodiky (Scrum/Kanban) a zajištění, že termíny budou dodrženy."
-            />
-            <ServiceCard 
-              icon={<Brain size={40} className="text-purple-400" />}
-              title="AI Implementace"
-              description="Analýza firemních potřeb a integrace AI nástrojů (ChatGPT, Claude, Midjourney). Školení týmů, jak efektivně využívat LLM modely."
-            />
-            <ServiceCard 
-              icon={<Cpu size={40} className="text-blue-400" />}
-              title="Automatizace Procesů"
-              description="Propojení vašich aplikací pomocí Make.com nebo Zapieru. Automatizace fakturace, e-mailingu a rutinní administrativy."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* About/Stats Section */}
-      <section id="o-mne" className="py-20 border-y border-slate-800 relative">
-        <div className="absolute inset-0 bg-slate-950 opacity-80 z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
-              <h3 className="text-3xl font-bold mb-6">Spojuji lidskou kreativitu s strojovou přesností</h3>
-              <p className="text-slate-400 text-lg mb-6 leading-relaxed">
-                Jako specialista na pomezí technologie a managementu chápu, že nejde jen o to mít nejnovější nástroje, ale umět je začlenit do každodenního chodu firmy.
-              </p>
-              <ul className="space-y-4">
-                <ListItem text="Certifikovaný Project Manager" />
-                <ListItem text="Expert na No-Code automatizace" />
-                <ListItem text="Individuální přístup ke každé firmě" />
-              </ul>
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 bg-transparent">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onclick="window.scrollTo(0,0)">
+                AI.NEXUS
             </div>
-            <div className="lg:w-1/2 grid grid-cols-2 gap-6">
-              <StatCard number="50+" label="Úspěšných projektů" />
-              <StatCard number="30%" label="Průměrná úspora času" />
-              <StatCard number="100+" label="Automatizovaných procesů" />
-              <StatCard number="24/7" label="Běžící systémy" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="kontakt" className="py-24 relative">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-             {/* Decorative glow */}
-             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
-
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Pojďme spolupracovat</h2>
-              <p className="text-slate-400">Vyplňte formulář níže a já se vám ozvu do 24 hodin s návrhem řešení.</p>
-            </div>
-
-            <ContactForm />
             
-            <div className="mt-12 grid md:grid-cols-2 gap-6 border-t border-slate-800 pt-8">
-              <div className="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
-                <div className="p-3 bg-slate-800 rounded-full">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">Email</p>
-                  <p className="font-medium">kontakt@vasedomena.cz</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
-                <div className="p-3 bg-slate-800 rounded-full">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-500">Telefon</p>
-                  <p className="font-medium">+420 123 456 789</p>
-                </div>
-              </div>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#sluzby" class="hover:text-cyan-400 transition-colors">Služby</a>
+                <a href="#o-mne" class="hover:text-cyan-400 transition-colors">O mně</a>
+                <a href="#kontakt" class="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full font-medium hover:shadow-[0_0_20px_rgba(8,145,178,0.5)] transition-all transform hover:-translate-y-0.5">
+                    Spolupracovat
+                </a>
             </div>
-          </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="text-slate-100 focus:outline-none">
+                    <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                </button>
+            </div>
         </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>© {new Date().getFullYear()} AI.NEXUS. Všechna práva vyhrazena.</p>
-          <div className="flex gap-4">
-            <a href="#" className="hover:text-cyan-400 transition-colors"><Linkedin size={20} /></a>
-          </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 p-6 flex-col space-y-4 shadow-xl">
+            <a href="#sluzby" class="mobile-link text-lg py-2 border-b border-slate-800 block">Služby</a>
+            <a href="#o-mne" class="mobile-link text-lg py-2 border-b border-slate-800 block">O mně</a>
+            <a href="#kontakt" class="mobile-link text-lg py-2 text-cyan-400 font-bold block">Spolupracovat</a>
         </div>
-      </footer>
-    </div>
-  );
-};
+    </nav>
 
-/* --- Helper Components --- */
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-20 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-cyan-600/20 rounded-full blur-[100px] -z-10"></div>
 
-const ServiceCard = ({ icon, title, description }) => (
-  <div className="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
-    <div className="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
-      {icon}
-    </div>
-    <h3 className="text-xl font-bold mb-3 text-slate-100">{title}</h3>
-    <p className="text-slate-400 leading-relaxed">
-      {description}
-    </p>
-  </div>
-);
+        <div class="container mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 text-cyan-400 text-sm font-medium mb-8 animate-fade-in-up opacity-0">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span>Budoucnost je v automatizaci</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up delay-100 opacity-0">
+                Řídím projekty.<br />
+                <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                    Implementuji AI.
+                </span>
+            </h1>
+            
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-12 animate-fade-in-up delay-200 opacity-0">
+                Pomáhám firmám šetřit čas a peníze pomocí chytré automatizace a efektivního projektového řízení. Převeďte rutinu na AI a soustřeďte se na růst.
+            </p>
 
-const StatCard = ({ number, label }) => (
-  <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
-    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">
-      {number}
-    </div>
-    <div className="text-sm text-slate-400">{label}</div>
-  </div>
-);
-
-const ListItem = ({ text }) => (
-  <li className="flex items-center gap-3 text-slate-300">
-    <CheckCircle size={18} className="text-cyan-500 flex-shrink-0" />
-    <span>{text}</span>
-  </li>
-);
-
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [status, setStatus] = useState('idle'); // idle, submitting, success, error
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('submitting');
-    
-    const webhookUrl = "https://filiphromek.app.n8n.cloud/webhook-test/a7fd6625-a4b3-4b7c-a3cf-e4263ba875c2";
-    
-    // Map data to requested format
-    const payload = {
-      name: formData.firstName,
-      surname: formData.lastName,
-      email: formData.email,
-      phone_number: formData.phone,
-      message: formData.message
-    };
-
-    try {
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-        // Reset success message after 5 seconds
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        console.error('Submission failed', response.statusText);
-        setStatus('error');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setStatus('error');
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300 ml-1">Jméno</label>
-          <input
-            type="text"
-            name="firstName"
-            required
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Jan"
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
-          />
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up delay-300 opacity-0">
+                <a href="#kontakt" class="px-8 py-4 bg-white text-slate-950 rounded-full font-bold text-lg hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+                    Nezávazná konzultace <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+                <a href="#sluzby" class="px-8 py-4 bg-slate-800/50 border border-slate-700 text-white rounded-full font-bold text-lg hover:bg-slate-800 transition-colors backdrop-blur-sm">
+                    Moje služby
+                </a>
+            </div>
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300 ml-1">Příjmení</label>
-          <input
-            type="text"
-            name="lastName"
-            required
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Novák"
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
-          />
+    </section>
+
+    <!-- Services Section -->
+    <section id="sluzby" class="py-20 bg-slate-900/50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Co pro vás mohu udělat?</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="kanban" class="w-10 h-10 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-100">Project Management</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Profesionální vedení projektů od A do Z. Nastavení procesů, agilní metodiky (Scrum/Kanban) a zajištění, že termíny budou dodrženy.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="brain" class="w-10 h-10 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-100">AI Implementace</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Analýza firemních potřeb a integrace AI nástrojů (ChatGPT, Claude, Midjourney). Školení týmů, jak efektivně využívat LLM modely.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+                    <div class="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="cpu" class="w-10 h-10 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-100">Automatizace Procesů</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Propojení vašich aplikací pomocí Make.com nebo Zapieru. Automatizace fakturace, e-mailingu a rutinní administrativy.
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300 ml-1">Email</label>
-          <input
-            type="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="jan@firma.cz"
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
-          />
+    <!-- About/Stats Section -->
+    <section id="o-mne" class="py-20 border-y border-slate-800 relative">
+        <div class="absolute inset-0 bg-slate-950 opacity-80 z-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <h3 class="text-3xl font-bold mb-6">Spojuji lidskou kreativitu s strojovou přesností</h3>
+                    <p class="text-slate-400 text-lg mb-6 leading-relaxed">
+                        Jako specialista na pomezí technologie a managementu chápu, že nejde jen o to mít nejnovější nástroje, ale umět je začlenit do každodenního chodu firmy.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-500 flex-shrink-0"></i>
+                            <span>Certifikovaný Project Manager</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-500 flex-shrink-0"></i>
+                            <span>Expert na No-Code automatizace</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cyan-500 flex-shrink-0"></i>
+                            <span>Individuální přístup ke každé firmě</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 grid grid-cols-2 gap-6">
+                    <!-- Stat 1 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                        <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">50+</div>
+                        <div class="text-sm text-slate-400">Úspěšných projektů</div>
+                    </div>
+                    <!-- Stat 2 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                        <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">30%</div>
+                        <div class="text-sm text-slate-400">Průměrná úspora času</div>
+                    </div>
+                    <!-- Stat 3 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                        <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">100+</div>
+                        <div class="text-sm text-slate-400">Automatizovaných procesů</div>
+                    </div>
+                    <!-- Stat 4 -->
+                    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+                        <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">24/7</div>
+                        <div class="text-sm text-slate-400">Běžící systémy</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300 ml-1">Telefonní číslo</label>
-          <input
-            type="tel"
-            name="phone"
-            required
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="+420 777 888 999"
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
-          />
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="kontakt" class="py-24 relative">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <!-- Decorative glow -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Pojďme spolupracovat</h2>
+                    <p class="text-slate-400">Vyplňte formulář níže a já se vám ozvu do 24 hodin s návrhem řešení.</p>
+                </div>
+
+                <!-- Form -->
+                <form id="contactForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Jméno</label>
+                            <input type="text" name="firstName" required placeholder="Jan"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Příjmení</label>
+                            <input type="text" name="lastName" required placeholder="Novák"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Email</label>
+                            <input type="email" name="email" required placeholder="jan@firma.cz"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 ml-1">Telefonní číslo</label>
+                            <input type="tel" name="phone" required placeholder="+420 777 888 999"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300 ml-1">Zpráva</label>
+                        <textarea name="message" required placeholder="Popište svůj projekt nebo dotaz..." rows="4"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600 resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn"
+                        class="w-full py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/25 transform hover:-translate-y-0.5">
+                        <span>Odeslat poptávku</span>
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </form>
+
+                <div class="mt-12 grid md:grid-cols-2 gap-6 border-t border-slate-800 pt-8">
+                    <div class="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
+                        <div class="p-3 bg-slate-800 rounded-full">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-500">Email</p>
+                            <p class="font-medium">kontakt@vasedomena.cz</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
+                        <div class="p-3 bg-slate-800 rounded-full">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-500">Telefon</p>
+                            <p class="font-medium">+420 123 456 789</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300 ml-1">Zpráva</label>
-        <textarea
-          name="message"
-          required
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Popište svůj projekt nebo dotaz..."
-          rows="4"
-          className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600 resize-none"
-        ></textarea>
-      </div>
+    <!-- Footer -->
+    <footer class="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p id="copyright">© 2024 AI.NEXUS. Všechna práva vyhrazena.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-cyan-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
 
-      <button
-        type="submit"
-        disabled={status === 'submitting' || status === 'success'}
-        className={`w-full py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 
-          ${status === 'success' 
-            ? 'bg-green-600 text-white cursor-default' 
-            : status === 'error'
-              ? 'bg-red-600 text-white hover:bg-red-700'
-              : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/25 transform hover:-translate-y-0.5'
-          }
-        `}
-      >
-        {status === 'submitting' ? (
-          <span className="animate-pulse">Odesílám...</span>
-        ) : status === 'success' ? (
-          <>Odesláno <CheckCircle size={20} /></>
-        ) : status === 'error' ? (
-          <>Chyba odeslání - zkuste to znovu <AlertCircle size={20} /></>
-        ) : (
-          <>Odeslat poptávku <Send size={20} /></>
-        )}
-      </button>
-    </form>
-  );
-};
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-export default App;
+        // Update Copyright Year
+        document.getElementById('copyright').textContent = `© ${new Date().getFullYear()} AI.NEXUS. Všechna práva vyhrazena.`;
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-slate-950/80', 'backdrop-blur-md', 'border-b', 'border-slate-800', 'py-4');
+                navbar.classList.remove('bg-transparent', 'py-6');
+            } else {
+                navbar.classList.remove('bg-slate-950/80', 'backdrop-blur-md', 'border-b', 'border-slate-800', 'py-4');
+                navbar.classList.add('bg-transparent', 'py-6');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        let isMenuOpen = false;
+
+        mobileMenuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                // Change icon to X (handled by Lucide re-render or replacing SVG)
+                // For simplicity in static HTML, we can toggle visibility of two icons if we had them, 
+                // but re-running createIcons on changed content is tricky. 
+                // Simpler: Just toggle class/style or innerHTML if needed, 
+                // but standard Lucide replacement replaces the <i> tag with <svg>.
+                // We'll keep the menu icon for simplicity or rotate it.
+                mobileMenuBtn.classList.add('rotate-90'); 
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                mobileMenuBtn.classList.remove('rotate-90');
+            }
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+                mobileMenuBtn.classList.remove('rotate-90');
+            });
+        });
+
+        // Form Submission Logic
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const originalBtnContent = submitBtn.innerHTML;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Set loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Odesílám...</span>';
+            
+            const formData = new FormData(form);
+            
+            // Webhook payload mapping
+            const payload = {
+                name: formData.get('firstName'),
+                surname: formData.get('lastName'),
+                email: formData.get('email'),
+                phone_number: formData.get('phone'),
+                message: formData.get('message')
+            };
+
+            const webhookUrl = "https://filiphromek.app.n8n.cloud/webhook-test/a7fd6625-a4b3-4b7c-a3cf-e4263ba875c2";
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    // Success state
+                    submitBtn.classList.remove('from-cyan-600', 'to-blue-600', 'hover:shadow-cyan-500/25');
+                    submitBtn.classList.add('bg-green-600', 'cursor-default');
+                    submitBtn.innerHTML = '<span>Odesláno</span> <i data-lucide="check-circle" class="w-5 h-5"></i>';
+                    lucide.createIcons();
+                    
+                    form.reset();
+                    
+                    // Reset after 5 seconds
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('bg-green-600', 'cursor-default');
+                        submitBtn.classList.add('from-cyan-600', 'to-blue-600', 'hover:shadow-cyan-500/25');
+                        submitBtn.innerHTML = originalBtnContent;
+                        lucide.createIcons();
+                    }, 5000);
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Error state
+                submitBtn.classList.remove('from-cyan-600', 'to-blue-600');
+                submitBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                submitBtn.innerHTML = '<span>Chyba odeslání</span> <i data-lucide="alert-circle" class="w-5 h-5"></i>';
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    submitBtn.classList.add('from-cyan-600', 'to-blue-600');
+                    submitBtn.innerHTML = originalBtnContent;
+                    lucide.createIcons();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
