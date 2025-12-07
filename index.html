@@ -191,17 +191,85 @@
         }
 
         /* Contact Section */
-        .contact {
-            padding: 6rem 0;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
+            .contact {
+                padding: 6rem 0;
+                background-color: #f8f9fa;
+                text-align: center;
+            }
 
-        .contact p {
-            font-size: 1.125rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
+            .contact p {
+                font-size: 1.125rem;
+                color: #666;
+                margin-bottom: 2rem;
+            }
+
+            /* Contact Form */
+            .contact-form {
+                max-width: 720px;
+                margin: 0 auto;
+                text-align: left;
+                display: grid;
+                gap: 1rem;
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .form-row.single {
+                grid-template-columns: 1fr;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border: 1px solid #e0e0e0;
+                border-radius: 6px;
+                font-size: 1rem;
+                color: #222;
+                background-color: #fff;
+            }
+
+            textarea {
+                min-height: 140px;
+                resize: vertical;
+            }
+
+            .form-actions {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                margin-top: 0.5rem;
+            }
+
+            .form-note {
+                color: #777;
+                font-size: 0.95rem;
+            }
+
+            .form-success {
+                background: #e9f7ef;
+                border: 1px solid #b7e4c7;
+                color: #17663a;
+                padding: 1rem;
+                border-radius: 6px;
+            }
+
+            .form-error {
+                background: #fff3f2;
+                border: 1px solid #f2b7b3;
+                color: #8a1f1b;
+                padding: 1rem;
+                border-radius: 6px;
+            }
+
+            .hidden {
+                display: none !important;
+            }
 
         /* Footer */
         footer {
@@ -322,7 +390,27 @@
         <div class="container">
             <h2 class="section-title">Let's Work Together</h2>
             <p>Ready to transform your business? Get in touch to discuss how I can help.</p>
-            <button class="cta-button">Contact Me</button>
+
+            <form id="contact-form" class="contact-form" novalidate>
+                <input type="text" name="name" id="name" placeholder="Your name" required />
+                <div class="form-row">
+                    <input type="email" name="email" id="email" placeholder="Email address" required />
+                    <input type="text" name="company" id="company" placeholder="Company (optional)" />
+                </div>
+                <div class="form-row single">
+                    <textarea name="message" id="message" placeholder="Tell me about your project" required></textarea>
+                </div>
+
+                <!-- Honeypot to reduce spam -->
+                <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+                <div class="form-actions">
+                    <button type="submit" class="cta-button" id="submit-btn">Send Message</button>
+                    <div class="form-note">I typically reply within 1–2 business days.</div>
+                </div>
+
+                <div id="form-feedback" class="hidden" role="status" aria-live="polite"></div>
+            </form>
         </div>
     </section>
 
@@ -337,5 +425,77 @@
             </div>
         </div>
     </footer>
+    <script>
+        (function () {
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const feedback = document.getElementById('form-feedback');
+
+            function setFeedback(message, ok) {
+                feedback.className = ok ? 'form-success' : 'form-error';
+                feedback.textContent = message;
+                feedback.classList.remove('hidden');
+            }
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // basic client-side validation
+                const name = form.name.value.trim();
+                const email = form.email.value.trim();
+                const message = form.message.value.trim();
+                const gotcha = form._gotcha.value;
+
+                if (gotcha) {
+                    // suspected bot — silently fail
+                    return;
+                }
+
+                if (!name || !email || !message) {
+                    setFeedback('Please fill in your name, email and a short message.', false);
+                    return;
+                }
+
+                // basic email pattern
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    setFeedback('Please provide a valid email address.', false);
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                feedback.classList.add('hidden');
+
+                try {
+                    // Replace the URL below with your Formspree endpoint or server endpoint
+                    const endpoint = 'https://formspree.io/f/yourFormId';
+                    const formData = new FormData(form);
+
+                    const res = await fetch(endpoint, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (res.ok) {
+                        setFeedback('Thanks! Your message has been sent.', true);
+                        form.reset();
+                    } else {
+                        const data = await res.json();
+                        const errorMsg = (data && data.error) ? data.error : 'There was a problem sending your message.';
+                        setFeedback(errorMsg, false);
+                    }
+                } catch (err) {
+                    setFeedback('Network error. Please try again or email directly.', false);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
