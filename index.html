@@ -1,501 +1,357 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filip Hromek - Entrepreneur & Business Strategist</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+import React, { useState, useEffect } from 'react';
+import { 
+  Brain, 
+  Cpu, 
+  Kanban, 
+  CheckCircle, 
+  ArrowRight, 
+  Mail, 
+  Phone, 
+  Linkedin, 
+  Menu, 
+  X,
+  Send,
+  Zap
+} from 'lucide-react';
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            background-color: #ffffff;
-        }
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-        header {
-            background-color: #f8f9fa;
-            padding: 2rem 0;
-            border-bottom: 1px solid #e9ecef;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+  // Handle scroll for navbar styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-900">
+      
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
+        <div className="container mx-auto px-6 flex justify-between items-center">
+          <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+            AI.NEXUS
+          </div>
+          
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-8 items-center">
+            <button onClick={() => scrollToSection('sluzby')} className="hover:text-cyan-400 transition-colors">Služby</button>
+            <button onClick={() => scrollToSection('o-mne')} className="hover:text-cyan-400 transition-colors">O mně</button>
+            <button 
+              onClick={() => scrollToSection('kontakt')} 
+              className="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full font-medium hover:shadow-[0_0_20px_rgba(8,145,178,0.5)] transition-all transform hover:-translate-y-0.5"
+            >
+              Spolupracovat
+            </button>
+          </div>
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #555;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #1a1a1a;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 6rem 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: #666;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 0.875rem 2rem;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            background-color: #333;
-        }
-
-        .cta-button.secondary {
-            background-color: transparent;
-            color: #1a1a1a;
-            border: 2px solid #1a1a1a;
-            margin-left: 1rem;
-        }
-
-        .cta-button.secondary:hover {
-            background-color: #f8f9fa;
-        }
-
-        /* About Section */
-        .about {
-            padding: 6rem 0;
-            background-color: #f8f9fa;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #1a1a1a;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-            color: #555;
-            line-height: 1.8;
-        }
-
-        .about-image {
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-        }
-
-        /* Services Section */
-        .services {
-            padding: 6rem 0;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .service-card {
-            padding: 2rem;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .service-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .service-card p {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Contact Section */
-            .contact {
-                padding: 6rem 0;
-                background-color: #f8f9fa;
-                text-align: center;
-            }
-
-            .contact p {
-                font-size: 1.125rem;
-                color: #666;
-                margin-bottom: 2rem;
-            }
-
-            /* Contact Form */
-            .contact-form {
-                max-width: 720px;
-                margin: 0 auto;
-                text-align: left;
-                display: grid;
-                gap: 1rem;
-            }
-
-            .form-row {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-
-            .form-row.single {
-                grid-template-columns: 1fr;
-            }
-
-            input[type="text"],
-            input[type="email"],
-            textarea {
-                width: 100%;
-                padding: 0.75rem 1rem;
-                border: 1px solid #e0e0e0;
-                border-radius: 6px;
-                font-size: 1rem;
-                color: #222;
-                background-color: #fff;
-            }
-
-            textarea {
-                min-height: 140px;
-                resize: vertical;
-            }
-
-            .form-actions {
-                display: flex;
-                gap: 1rem;
-                align-items: center;
-                margin-top: 0.5rem;
-            }
-
-            .form-note {
-                color: #777;
-                font-size: 0.95rem;
-            }
-
-            .form-success {
-                background: #e9f7ef;
-                border: 1px solid #b7e4c7;
-                color: #17663a;
-                padding: 1rem;
-                border-radius: 6px;
-            }
-
-            .form-error {
-                background: #fff3f2;
-                border: 1px solid #f2b7b3;
-                color: #8a1f1b;
-                padding: 1rem;
-                border-radius: 6px;
-            }
-
-            .hidden {
-                display: none !important;
-            }
-
-        /* Footer */
-        footer {
-            background-color: #1a1a1a;
-            color: #ffffff;
-            padding: 2rem 0;
-            text-align: center;
-            border-top: 1px solid #333;
-        }
-
-        footer p {
-            margin: 0.5rem 0;
-            font-size: 0.95rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1rem 0;
-        }
-
-        .footer-links a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #ffffff;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .cta-button.secondary {
-                margin-left: 0;
-                margin-top: 1rem;
-                display: block;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header & Navigation -->
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">AM</a>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero container">
-        <h1>Filip Hromek</h1>
-        <p>Building exceptional businesses through strategy, innovation, and execution</p>
-        <button class="cta-button">Get Started</button>
-        <button class="cta-button secondary">Learn More</button>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Entrepreneur & Business Strategist</h2>
-                    <p>With over 10 years of experience in building and scaling businesses, I help entrepreneurs transform their vision into profitable, sustainable enterprises.</p>
-                    <p>My approach combines strategic planning, operational excellence, and data-driven decision-making to accelerate growth and maximize returns.</p>
-                    <button class="cta-button">Explore My Work</button>
-                </div>
-                <div class="about-image"></div>
-            </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-100">
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
-    </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services container">
-        <h2 class="section-title">Services</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Business Strategy</h3>
-                <p>Develop comprehensive strategies to position your business for sustainable growth and competitive advantage in your market.</p>
-            </div>
-            <div class="service-card">
-                <h3>Operational Optimization</h3>
-                <p>Streamline processes, improve efficiency, and reduce costs through systematic operational improvements and best practices.</p>
-            </div>
-            <div class="service-card">
-                <h3>Growth & Scaling</h3>
-                <p>Execute proven frameworks to scale your business, expand market reach, and increase profitability at every stage.</p>
-            </div>
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 p-6 flex flex-col space-y-4 shadow-xl">
+            <button onClick={() => scrollToSection('sluzby')} className="text-lg py-2 border-b border-slate-800">Služby</button>
+            <button onClick={() => scrollToSection('o-mne')} className="text-lg py-2 border-b border-slate-800">O mně</button>
+            <button onClick={() => scrollToSection('kontakt')} className="text-lg py-2 text-cyan-400 font-bold">Spolupracovat</button>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        {/* Abstract Background Shapes */}
+        <div className="absolute top-20 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] -z-10"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-600/20 rounded-full blur-[100px] -z-10"></div>
+
+        <div className="container mx-auto px-6 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 text-cyan-400 text-sm font-medium mb-8 animate-fade-in-up">
+            <Zap size={16} />
+            <span>Budoucnost je v automatizaci</span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up delay-100">
+            Řídím projekty.<br />
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Implementuji AI.
+            </span>
+          </h1>
+          
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-12 animate-fade-in-up delay-200">
+            Pomáhám firmám šetřit čas a peníze pomocí chytré automatizace a efektivního projektového řízení. Převeďte rutinu na AI a soustřeďte se na růst.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up delay-300">
+            <button 
+              onClick={() => scrollToSection('kontakt')}
+              className="px-8 py-4 bg-white text-slate-950 rounded-full font-bold text-lg hover:bg-slate-200 transition-colors flex items-center justify-center gap-2"
+            >
+              Nezávazná konzultace <ArrowRight size={20} />
+            </button>
+            <button 
+              onClick={() => scrollToSection('sluzby')}
+              className="px-8 py-4 bg-slate-800/50 border border-slate-700 text-white rounded-full font-bold text-lg hover:bg-slate-800 transition-colors backdrop-blur-sm"
+            >
+              Moje služby
+            </button>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Work Together</h2>
-            <p>Ready to transform your business? Get in touch to discuss how I can help.</p>
+      {/* Services Section */}
+      <section id="sluzby" className="py-20 bg-slate-900/50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Co pro vás mohu udělat?</h2>
+            <div className="h-1 w-20 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto rounded-full"></div>
+          </div>
 
-            <form id="contact-form" class="contact-form" novalidate>
-                <input type="text" name="name" id="name" placeholder="Your name" required />
-                <div class="form-row">
-                    <input type="email" name="email" id="email" placeholder="Email address" required />
-                    <input type="text" name="company" id="company" placeholder="Company (optional)" />
-                </div>
-                <div class="form-row single">
-                    <textarea name="message" id="message" placeholder="Tell me about your project" required></textarea>
-                </div>
-
-                <!-- Honeypot to reduce spam -->
-                <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
-
-                <div class="form-actions">
-                    <button type="submit" class="cta-button" id="submit-btn">Send Message</button>
-                    <div class="form-note">I typically reply within 1–2 business days.</div>
-                </div>
-
-                <div id="form-feedback" class="hidden" role="status" aria-live="polite"></div>
-            </form>
+          <div className="grid md:grid-cols-3 gap-8">
+            <ServiceCard 
+              icon={<Kanban size={40} className="text-cyan-400" />}
+              title="Project Management"
+              description="Profesionální vedení projektů od A do Z. Nastavení procesů, agilní metodiky (Scrum/Kanban) a zajištění, že termíny budou dodrženy."
+            />
+            <ServiceCard 
+              icon={<Brain size={40} className="text-purple-400" />}
+              title="AI Implementace"
+              description="Analýza firemních potřeb a integrace AI nástrojů (ChatGPT, Claude, Midjourney). Školení týmů, jak efektivně využívat LLM modely."
+            />
+            <ServiceCard 
+              icon={<Cpu size={40} className="text-blue-400" />}
+              title="Automatizace Procesů"
+              description="Propojení vašich aplikací pomocí Make.com nebo Zapieru. Automatizace fakturace, e-mailingu a rutinní administrativy."
+            />
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Filip Hromek. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#linkedin">LinkedIn</a>
-                <a href="#twitter">Twitter</a>
-                <a href="#email">Email</a>
+      {/* About/Stats Section */}
+      <section id="o-mne" className="py-20 border-y border-slate-800 relative">
+        <div className="absolute inset-0 bg-slate-950 opacity-80 z-0"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="lg:w-1/2">
+              <h3 className="text-3xl font-bold mb-6">Spojuji lidskou kreativitu s strojovou přesností</h3>
+              <p className="text-slate-400 text-lg mb-6 leading-relaxed">
+                Jako specialista na pomezí technologie a managementu chápu, že nejde jen o to mít nejnovější nástroje, ale umět je začlenit do každodenního chodu firmy.
+              </p>
+              <ul className="space-y-4">
+                <ListItem text="Certifikovaný Project Manager" />
+                <ListItem text="Expert na No-Code automatizace" />
+                <ListItem text="Individuální přístup ke každé firmě" />
+              </ul>
             </div>
+            <div className="lg:w-1/2 grid grid-cols-2 gap-6">
+              <StatCard number="50+" label="Úspěšných projektů" />
+              <StatCard number="30%" label="Průměrná úspora času" />
+              <StatCard number="100+" label="Automatizovaných procesů" />
+              <StatCard number="24/7" label="Běžící systémy" />
+            </div>
+          </div>
         </div>
-    </footer>
-    <script>
-        (function () {
-            const form = document.getElementById('contact-form');
-            const submitBtn = document.getElementById('submit-btn');
-            const feedback = document.getElementById('form-feedback');
+      </section>
 
-            function setFeedback(message, ok) {
-                feedback.className = ok ? 'form-success' : 'form-error';
-                feedback.textContent = message;
-                feedback.classList.remove('hidden');
-            }
+      {/* Contact Form Section */}
+      <section id="kontakt" className="py-24 relative">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+             {/* Decorative glow */}
+             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
 
-            form.addEventListener('submit', async function (e) {
-                e.preventDefault();
+            <div className="text-center mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Pojďme spolupracovat</h2>
+              <p className="text-slate-400">Vyplňte formulář níže a já se vám ozvu do 24 hodin s návrhem řešení.</p>
+            </div>
 
-                // basic client-side validation
-                const name = form.name.value.trim();
-                const email = form.email.value.trim();
-                const message = form.message.value.trim();
-                const gotcha = form._gotcha.value;
+            <ContactForm />
+            
+            <div className="mt-12 grid md:grid-cols-2 gap-6 border-t border-slate-800 pt-8">
+              <div className="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
+                <div className="p-3 bg-slate-800 rounded-full">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Email</p>
+                  <p className="font-medium">kontakt@vasedomena.cz</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer">
+                <div className="p-3 bg-slate-800 rounded-full">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-500">Telefon</p>
+                  <p className="font-medium">+420 123 456 789</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                if (gotcha) {
-                    // suspected bot — silently fail
-                    return;
-                }
+      {/* Footer */}
+      <footer className="py-8 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>© {new Date().getFullYear()} AI.NEXUS. Všechna práva vyhrazena.</p>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-cyan-400 transition-colors"><Linkedin size={20} /></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
 
-                if (!name || !email || !message) {
-                    setFeedback('Please fill in your name, email and a short message.', false);
-                    return;
-                }
+/* --- Helper Components --- */
 
-                // basic email pattern
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(email)) {
-                    setFeedback('Please provide a valid email address.', false);
-                    return;
-                }
+const ServiceCard = ({ icon, title, description }) => (
+  <div className="bg-slate-800/30 border border-slate-700/50 p-8 rounded-2xl hover:bg-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-2">
+    <div className="mb-6 p-4 bg-slate-900 rounded-xl inline-block group-hover:scale-110 transition-transform duration-300">
+      {icon}
+    </div>
+    <h3 className="text-xl font-bold mb-3 text-slate-100">{title}</h3>
+    <p className="text-slate-400 leading-relaxed">
+      {description}
+    </p>
+  </div>
+);
 
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
-                feedback.classList.add('hidden');
+const StatCard = ({ number, label }) => (
+  <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 text-center hover:border-purple-500/50 transition-colors">
+    <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">
+      {number}
+    </div>
+    <div className="text-sm text-slate-400">{label}</div>
+  </div>
+);
 
-                try {
-                    // Replace the URL below with your Formspree endpoint or server endpoint
-                    const endpoint = 'https://formspree.io/f/yourFormId';
-                    const formData = new FormData(form);
+const ListItem = ({ text }) => (
+  <li className="flex items-center gap-3 text-slate-300">
+    <CheckCircle size={18} className="text-cyan-500 flex-shrink-0" />
+    <span>{text}</span>
+  </li>
+);
 
-                    const res = await fetch(endpoint, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: ''
+  });
+  const [status, setStatus] = useState('idle'); // idle, submitting, success
 
-                    if (res.ok) {
-                        setFeedback('Thanks! Your message has been sent.', true);
-                        form.reset();
-                    } else {
-                        const data = await res.json();
-                        const errorMsg = (data && data.error) ? data.error : 'There was a problem sending your message.';
-                        setFeedback(errorMsg, false);
-                    }
-                } catch (err) {
-                    setFeedback('Network error. Please try again or email directly.', false);
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                }
-            });
-        })();
-    </script>
-</body>
-</html>
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus('submitting');
+    
+    // Simulate API call
+    setTimeout(() => {
+      setStatus('success');
+      setFormData({ firstName: '', lastName: '', email: '', phone: '' });
+      // Reset success message after 5 seconds
+      setTimeout(() => setStatus('idle'), 5000);
+    }, 1500);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-slate-300 ml-1">Jméno</label>
+          <input
+            type="text"
+            name="firstName"
+            required
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder="Jan"
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-slate-300 ml-1">Příjmení</label>
+          <input
+            type="text"
+            name="lastName"
+            required
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder="Novák"
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
+          />
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-slate-300 ml-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="jan@firma.cz"
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-slate-300 ml-1">Telefonní číslo</label>
+          <input
+            type="tel"
+            name="phone"
+            required
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="+420 777 888 999"
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder-slate-600"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        disabled={status === 'submitting' || status === 'success'}
+        className={`w-full py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 
+          ${status === 'success' 
+            ? 'bg-green-600 text-white cursor-default' 
+            : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/25 transform hover:-translate-y-0.5'
+          }
+        `}
+      >
+        {status === 'submitting' ? (
+          <span className="animate-pulse">Odesílám...</span>
+        ) : status === 'success' ? (
+          <>Odesláno <CheckCircle size={20} /></>
+        ) : (
+          <>Odeslat poptávku <Send size={20} /></>
+        )}
+      </button>
+    </form>
+  );
+};
+
+export default App;
